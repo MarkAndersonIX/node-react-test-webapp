@@ -1,0 +1,122 @@
+Installed VSCode through .deb, dpkg -i..
+Installed conda from website, .sh download.
+created "node" environment in conda, installed nodejs.
+Installed python extension in VSCode.
+Ctl+Shift+P to get command palette, "Enter interpreter path"
+    ~/anaconda3/envs/node/bin/
+create some server-side code in node
+    (index.js and package.json)
+create a react frontend:
+    npx create-react-app client
+    add property "proxy" to the CLIENT package.json file:
+        "proxy": "http://localhost:3001"
+        this tells the client to make calls to the api endpoint on the server.
+
+## DB
+1. install
+npm install sqlite3 sequelize
+
+2. initalize
+npx sequelize-cli init
+    Created "config/config.json"
+    Successfully created models folder at "/media/user/Barracuda1TB/Projects/node/hello_db/models".
+    Successfully created migrations folder at "/media/user/Barracuda1TB/Projects/node/hello_db/migrations".
+    Successfully created seeders folder at "/media/user/Barracuda1TB/Projects/node/hello_db/seeders".
+
+models/ folder includes index.js which appears to look for .js files which represent database models, and instantiate them.
+
+3. create models/User.js
+// models/User.js
+module.exports = (sequelize, DataTypes) => {
+const User = sequelize.define('User', {
+    username: DataTypes.STRING,
+    email: DataTypes.STRING
+});
+return User;
+};
+
+4. initialize sequelize and sync models
+// server/db.js
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('database', 'username', 'password', {
+  dialect: 'sqlite',
+  storage: 'database/database.sqlite'
+});
+
+const User = require('../models/User')(sequelize, Sequelize);
+
+// Sync models with the database
+sequelize.sync();
+
+module.exports = {
+    sequelize,
+    User
+}
+
+5. import db init into index.js, our start point.
+//index.js
+..
+//Add requirement for db init
+const { sequelize, User } = require("./db.js")
+..
+
+6. add server api endpoint for users:
+//index.js
+//Adding db api for users
+app.get("/api/users", async (req, res) => {
+  try {
+    // Fetch all users from the database
+    const users = await User.findAll();
+
+    // Send the users data as a JSON response
+    res.json(users);
+  } catch (error) {
+    // If an error occurs, send an error response
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+7. we need to add a router to our react project to route endpoints to different frontend logic.
+we will also install axios for making web requests to the api.
+    cd client/
+    npm install react-router-dom, axios
+    hello_db> mkdir components
+    cd components
+    touch test_splash.js
+move code from App.js to Home.js.  it will be imported and mapped to an endpoint.
+
+8. in App.js, we sub-in router code:
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import UserList from './components/UserList';
+import CreateUser from './components/CreateUser';
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/users" component={UserList} />
+        <Route path="/create-user" component={CreateUser} />
+      </Switch>
+    </Router>
+  );
+}
+
+
+
+##########
+Debugging:
+    Debugging:
+        open two terminals in hello_db with conda activated to "node"
+            npm start in one (server)
+            cd client/; npm start (client)
+        
+    This does not work, hangs..
+        Palette -> launch.json
+            which node 
+                /home/user/anaconda3/envs/node/bin/node
+            edit launch.json "configurations" -> {type: "node" .... } to include:
+                "runtimeExecutable": "/home/user/anaconda3/envs/node/bin/node"
