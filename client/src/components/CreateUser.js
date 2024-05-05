@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../App.css';
+import '../styles/styles.css';
 
 function CreateUser() {
   // State to store user input
@@ -7,7 +9,7 @@ function CreateUser() {
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    console.log("in handleSubmit");
+    console.log('in handleSubmit');
     e.preventDefault();
     try {
       // Make a POST request to the backend API to add a new user
@@ -26,34 +28,41 @@ function CreateUser() {
   };
 
   return (
-    <div>
-      <h2>Create User</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Create User</button>
-      </form>
-    </div>
+    <header className='App-header'>
+      <div className='dialog-container'>
+        <h2 className='dialog-title'>Create User</h2>
+        <form className='dialog-content' onSubmit={handleSubmit}>
+          <div className='dialog-form-container'>
+            <div className='dialog-form-group'>
+              <label className='dialog-input-label' htmlFor='username'>Username:</label>
+              <input className='dialog-inputs'
+                type='text'
+                id='username'
+                name='username'
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className='dialog-form-group'>
+              <label className='dialog-input-label' htmlFor='email'>Email:</label>
+              <input className='dialog-inputs'
+                type='email'
+                id='email'
+                name='email'
+                value={formData.email}
+                onChange={handleChange}
+                required
+                
+              />
+            </div>
+            <div className='dialog-buttons'>
+            <button className='dialog-buttons' type='submit'>Create User</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </header>
   );
 }
 

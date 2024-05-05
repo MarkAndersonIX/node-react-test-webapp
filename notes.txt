@@ -121,6 +121,64 @@ function App() {
   );
 }
 
+9. NavigationBar.js
+//We'll add a navigation bar and use css to stylize it later.
+// NavigationBar.js
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+require("../styles/navbar.css");
+
+const NavigationBar = () => {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/users">Users</Link>
+        </li>
+        <li>
+          <Link to="/create-user">Create User</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default NavigationBar;
+
+//and style it in styles/navbar.css:
+nav {
+    background-color: #777;
+    padding: 0px;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    display: inline-block;
+    margin-right: 0px;
+    padding: 20px; /* pad list items, all other padding is zero to get edge to edge */
+    text-align: center;
+    font-size: 20px;
+    font-weight:bold;
+  }
+  ul :hover{
+    background-color: #555;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+10. stylize CreateUser.js with create_user.css:
 
 
 ##########
