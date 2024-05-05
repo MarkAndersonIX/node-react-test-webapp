@@ -35,12 +35,25 @@ app.get("/api/users", async (req, res) => {
 // Express route handler to add a new user
 app.post('/api/users', async (req, res) => {
   if (!req.body || !req.body.username || !req.body.email) {
-    console.error(`Invalid request : ${req.body}`)
+    console.error(`Invalid request : ${JSON.stringify(req.body)}`)
     return res.status(400).json({ error: 'Invalid or empty request body' });
   }
-  try {
+    try {
     // Extract user data from the request body
     const { username, email } = req.body;
+    
+    // Check if username or email already exists in the database
+    const existingUser = await User.findOne({
+      where: {
+        email: email
+      },
+    });
+
+    if (existingUser) {
+      // Duplicate entry found, return an error response
+      console.error(`Email exists : ${JSON.stringify(req.body)}`)
+      return res.status(400).json({ error: 'An account already exists for this email.' });
+    }
 
     // Create a new user record in the database
     const newUser = await User.create({ username, email });

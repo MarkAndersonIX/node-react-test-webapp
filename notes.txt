@@ -12,6 +12,22 @@ create a react frontend:
         "proxy": "http://localhost:3001"
         this tells the client to make calls to the api endpoint on the server.
 
+## GIT:
+for git cli, we need git credential manager:
+    https://github.com/git-ecosystem/git-credential-manager
+    Debian package
+    Install
+    https://github.com/git-ecosystem/git-credential-manager/releases/latest
+    sudo dpkg -i <path-to-package>
+    git-credential-manager configure
+    echo 'export GCM_CREDENTIAL_STORE="cache"' >> ~/.bashrc
+
+    Uninstall
+    git-credential-manager unconfigure
+    sudo dpkg -r gcm
+    *If you'd like to validate the package's signature after downloading, check out the instructions here.
+
+
 ## DB
 1. install
 npm install sqlite3 sequelize
@@ -83,12 +99,12 @@ we will also install axios for making web requests to the api.
     npm install react-router-dom, axios
     hello_db> mkdir components
     cd components
-    touch test_splash.js
+    touch Home.js
 move code from App.js to Home.js.  it will be imported and mapped to an endpoint.
 
 8. in App.js, we sub-in router code:
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
@@ -96,11 +112,11 @@ import CreateUser from './components/CreateUser';
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/users" component={UserList} />
-        <Route path="/create-user" component={CreateUser} />
-      </Switch>
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/users" exact element={<UserList />} />
+        <Route path="/create-user" exact element={<CreateUser />} />
+      </Routes>
     </Router>
   );
 }
@@ -113,10 +129,3 @@ Debugging:
         open two terminals in hello_db with conda activated to "node"
             npm start in one (server)
             cd client/; npm start (client)
-        
-    This does not work, hangs..
-        Palette -> launch.json
-            which node 
-                /home/user/anaconda3/envs/node/bin/node
-            edit launch.json "configurations" -> {type: "node" .... } to include:
-                "runtimeExecutable": "/home/user/anaconda3/envs/node/bin/node"
