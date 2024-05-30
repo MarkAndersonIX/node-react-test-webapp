@@ -181,6 +181,31 @@ nav {
 10. stylize CreateUser.js with create_user.css:
 
 
+## Docker
+We will build a docker image and push it to Docker Hub.
+This will be used as a test web app to deploy on a k8s cluter.
+In this iteration, the image should be able to run both the client
+frontend code (React) and the backend API code (Node)
+
+1. Create the docker file that will install via node
+  Copy the client package.json file to its client/ directory, install deps.
+  Copy the backend package.json to the project root and install deps.
+  Expose port 3000 (webapp port)
+  CMD 'npm run launch'
+
+2. build the image:
+  docker build -t hello_db:latest .
+
+3. test the image:
+  docker run -p 3000:3000 hello_db:latest
+
+4. push the image to Docker Hub:
+  docker push markandersonix/hello_db:latest
+
+Note: If this is built on Amd64 it will not be able to run on 
+  Raspberry Pi architecture. You can user docker buildx to build 
+  a multiarch compatible image, or build the image on one of the nodes.
+
 ##########
 Debugging:
     Debugging:
