@@ -183,7 +183,7 @@ nav {
 
 ## Docker
 We will build a docker image and push it to Docker Hub.
-This will be used as a test web app to deploy on a k8s cluter.
+This will be used as a test web app to deploy on a r-pi k8s cluter.
 In this iteration, the image should be able to run both the client
 frontend code (React) and the backend API code (Node)
 
@@ -193,13 +193,15 @@ frontend code (React) and the backend API code (Node)
   Expose port 3000 (webapp port) and 3001 (backend api port)
   CMD 'npm run launch'
 
-2. build the image:
-  docker build -t hello_db:latest .
+2. build the image on raspberry pi:
+  docker build -t hello_db:latest_arm .
 
 3. test the image:
-  docker run -p 3000:3000 hello_db:latest
+  docker run -p 3000:3000 -p 3001:3001 hello_db:arm_latest
 
-4. push the image to Docker Hub:
+4. Navigate to either the host ip at port 3000, or tunneled localhost:3000
+
+5. If working push the image to Docker Hub:
   docker push markandersonix/hello_db:latest
 
 Note: If this is built on Amd64 it will not be able to run on 
