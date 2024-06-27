@@ -188,9 +188,9 @@ In this iteration, the image should be able to run both the client
 frontend code (React) and the backend API code (Node)
 
 1. Create the docker file that will install via node
-  Copy the client package.json file to its client/ directory, install deps.
-  Copy the backend package.json to the project root and install deps.
-  Expose port 3000 (webapp port)
+  Copy the all files to the workdir folder /app/ and install deps.
+  Workdir into client/ and install deps.
+  Expose port 3000 (webapp port) and 3001 (backend api port)
   CMD 'npm run launch'
 
 2. build the image:

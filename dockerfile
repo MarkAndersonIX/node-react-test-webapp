@@ -1,31 +1,21 @@
-# Stage 1: Build the React frontend
-FROM node:14 AS build
+FROM node:14 
 
+# Copy the backend and client source code TODO: prune out unnecessary files/folders
 WORKDIR /app
+COPY . .
 
-# Copy the frontend code and install dependencies
-COPY client/package*.json ./client/
+# Install backend dependencies
+RUN npm install
+
+# Install client dependencies
 WORKDIR /app/client
 RUN npm install
 
-# Build the React app
-COPY client/ .
-RUN npm run build
+# Rebuild dependencies
+RUN npm rebuild
 
-# Stage 2: Set up the Node.js backend and serve the React app
-FROM node:14
-
+# Return to workdir
 WORKDIR /app
-
-# Copy backend dependencies
-COPY package*.json ./
-RUN npm install
-
-# Copy the backend source code
-COPY . .
-
-# Copy the built React app from the first stage
-COPY --from=build /app/client/build /app/client/build
 
 # Expose the port the app runs on
 EXPOSE 3000
