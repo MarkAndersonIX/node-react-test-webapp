@@ -1,3 +1,6 @@
+# Node/React webapp test on Kubernetes deployed on a small cluster of raspberry pis.
+
+## Environment Notes
 Installed VSCode through .deb, dpkg -i..
 Installed conda from website, .sh download.
 created "node" environment in conda, installed nodejs.
@@ -11,6 +14,7 @@ create a react frontend:
     add property "proxy" to the CLIENT package.json file:
         "proxy": "http://localhost:3001"
         this tells the client to make calls to the api endpoint on the server.
+Use "Remote" plugin for VSCode to hook up dev environment on pi's
 
 ## GIT:
 for git cli, we need git credential manager:
@@ -203,14 +207,8 @@ frontend code (React) and the backend API code (Node)
 
 5. If working push the image to Docker Hub:
   docker push markandersonix/hello_db:latest
+  https://hub.docker.com/repository/docker/markandersonix/hello_db/general
 
 Note: If this is built on Amd64 it will not be able to run on 
   Raspberry Pi architecture. You can user docker buildx to build 
   a multiarch compatible image, or build the image on one of the nodes.
-
-##########
-Debugging:
-    Debugging:
-        open two terminals in hello_db with conda activated to "node"
-            npm start in one (server)
-            cd client/; npm start (client)
