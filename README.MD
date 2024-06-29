@@ -1,4 +1,7 @@
 # Node/React webapp test on Kubernetes deployed on a small cluster of raspberry pis.
+Some basic Node/React development for testing project creation and
+deployment on a cluster of workers. Expecting to use Node, React, MySQL, Kubernetes,
+Nginx, Prometheus, etc.
 
 ## Environment Notes
 Installed VSCode through .deb, dpkg -i..

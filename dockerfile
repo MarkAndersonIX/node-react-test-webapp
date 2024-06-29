@@ -11,6 +11,9 @@ RUN npm install
 WORKDIR /app/client
 RUN npm install
 
+# Build the React app
+RUN npm run build
+
 # Rebuild dependencies
 RUN npm rebuild
 
